@@ -46,7 +46,7 @@ char edgeMap[20][56] = {
 	{"1000000000000000000000000000000000000000000000000000001"},
 	{"1000000000000000000000000000000000000000000000000000001"},
 	{"1000000000000000000000000000000000000000000000000000001"},
-	{"1000000000000000000000000000000000000000000000000000001"},
+	{"1111111111111111111111111111111111111111111111111111111"},
 	{"1000000000000000000000000000000000000000000000000000001"},
     {"1000000000000000000000000000000000000000000000000000001"},
     {"1000000000000000000000000000000000000000000000000000001"},
@@ -93,7 +93,9 @@ void infoDraw(); // draw info
 void drawMap(int*, int*); // 
 void drawUI(int*, int*, int*); // 
 
-int generateNumber(); // generate 4 digit unoverlap number
+void upDownLoop()
+vector<int> selectNumDraw();
+vector<int> generateNumber(); // generate 4 digit unoverlap number
 
 
 
@@ -240,39 +242,129 @@ int menuDraw(){
 	}
 } 
 
+// check
+int selectNumDraw() {
+    int x = 15;
+    int y = 26;
+    vector<int> v(4,0);
 
-void drawMap(int* x, int* y){
-	system("cls");
-	int h, w; // ����, ����  
-	
-	for(h=0; h<14; h++){ // ���α��̱���  
-		for(w=0; w<56; w++){ // ���α��̱���  
-			char temp = tempMap[h][w]; // �ӽ������� �� ������  
-			if(temp == '0'){ // �� ����(����)
-				setColor(black, black);  
-				printf(" "); 
-			} else if(temp == '1') { // ��(#)
-				setColor(white, white);  
-				printf("#"); 
-			} else if(temp == 's') { // �÷��̾�(@) 
-				*x = w; // �÷��̾� ��ǥ�� ����  
-				*y = h;
-				setColor(cyan, black);  
-				printf("@");
-			} else if(temp == 'q') { // ������(O)
-				setColor(lightgreen, black);    
-				printf("O"); 
-			} else if(temp == 'k') { // ����(*) 
-				setColor(yellow, black);
-				printf("*"); 
-			} else if(temp == 'l') { // ��� ��(+) 
-				setColor(brown, black);
-				printf("+");
+    gotoxy(x,y);
+    for(int i=0; i<4; i++) printf("%d", v[i]);
+    gotoxy(x,y+1) printf("^");
+
+    while(1) {
+        int n = keyControl();
+        switch(n) {
+            case UP: 
+                if(x < 30 && v[y-26] < 0) {
+                    v[y-26]++;
+                    gotoxy(x,y);
+                    print("%d", v[y-26]);
+                }
+                break;
+            case DOWN: 
+                if(x < 30 && v[y-26] > 0) {
+                    v[y-26]--;
+                    gotoxy(x,y);
+                    print("%d", v[y-26]);
+                }
+                break;
+            case LEFT: 
+                if(x > 26) {
+                    gotoxy(x,y+1);
+                    print(" ");
+                    gotoxy(--x, y+1);
+                    print("^");
+                }
+				else (x==31) {
+
+				}
+                break;
+            case RIGHT: 
+                if(x < 29) {
+                    gotoxy(x,y+1);
+                    print(" ");
+                    gotoxy(++x, y+1);
+                    print("^");
+                }
+				else if(x==29) {
+
+				}
+                break;
+            case SUBMIT:
+                if() return v;
+                else return vector<int> temp(4,-1);
+        }
+    }
+    /*
+	int x = 24; 
+	int y = 12;
+	gotoxy(x-2, y);   
+	printf("> game start");
+	gotoxy(x, y+1);
+	printf("game info");
+	gotoxy(x, y+2);
+	printf(" exit ");
+	while(1) {   
+		int n = keyControl();
+		switch(n) {
+			case UP: { 
+				if(y > 12){ 
+					gotoxy(x-2, y); 
+					printf(" ");   
+					gotoxy(x-2, --y);   
+					printf(">");  
+				}
+				break;
+			}
+				
+			case DOWN: { 
+				if(y < 14) {  
+					gotoxy(x-2, y);
+					printf(" ");
+					gotoxy(x-2, ++y);
+					printf(">");
+				}
+				break;
+			}
+			
+			case SUBMIT: {
+				return y-12;
 			}
 		}
-		printf("\n"); // ���� �� ��������� ��ĭ �ٹٲ�  
 	}
-	setColor(white, black); // �ٽ� �⺻ �������� ���ƿ��� 
+    */
+} 
+
+
+// check
+void drawMap(int type){
+	system("cls");
+	int h, w; 
+	
+	for(h=0; h<20; h++){ 
+		for(w=0; w<56; w++){  
+			char temp = tempMap[h][w];
+			if(temp == '0') {
+                setColor(black, black);
+                printf(" ");
+            }
+            else if(temp == '1') { 
+				setColor(white, white);
+				printf(" ");
+			}
+		}
+		printf("\n");  
+	}
+
+    if(type == 1) {
+        gotoxy()
+    }
+    else if(type == 2) {
+        gotoxy() 
+    }
+
+	setColor(white, black); 
 } 
 
 
@@ -308,6 +400,7 @@ vector<int> generateNumber() {
 }
 
 
+// check
 void upDownLoop() {
     int playing = 1;
 
